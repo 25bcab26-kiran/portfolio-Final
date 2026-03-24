@@ -24,7 +24,7 @@ sendBtn.addEventListener("click", async () => {
   try {
     // 🔥 IMPORTANT:
     // Change this URL after deploying to Render
-    const API_URL = "http://localhost:5000/api/contact"
+    const API_URL = "https://portfolio-final-d5oe.onrender.com/api/contact"
     // Example after deploy:
     // const API_URL = "https://your-app.onrender.com/api/contact"
 
@@ -68,3 +68,33 @@ sendBtn.addEventListener("click", async () => {
   }
 
 })
+// Fetch messages from backend
+async function loadMessages() {
+  try {
+    const res = await fetch("https://portfolio-final-d5oe.onrender.com/api/contact")
+    const data = await res.json()
+
+    const container = document.getElementById("messages")
+    container.innerHTML = ""
+
+    data.forEach(msg => {
+      const div = document.createElement("div")
+      div.style.marginBottom = "15px"
+      div.style.padding = "10px"
+      div.style.border = "1px solid #ccc"
+
+      div.innerHTML = `
+        <strong>${msg.name}</strong> (${msg.email})<br>
+        <p>${msg.message}</p>
+      `
+
+      container.appendChild(div)
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Load messages on page load
+loadMessages()
